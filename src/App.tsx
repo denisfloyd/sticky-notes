@@ -1,6 +1,6 @@
-import { StickyProvider } from './contexts/StickyContext';
-import { StickyNotesContainer } from './features/sticky/layouts'
-import GlobalStyle from './styles/global';
+import { StickyProvider } from "./features/sticky/contexts/StickyContext";
+import { StickyNotesContainer } from "./features/sticky/layouts";
+import GlobalStyle from "./styles/global";
 
 function App() {
   return (
@@ -8,7 +8,7 @@ function App() {
       <GlobalStyle />
       <StickyNotesContainer />
     </StickyProvider>
-  )
+  );
 }
 
-export default App
+export default App;
