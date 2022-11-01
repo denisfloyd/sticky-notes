@@ -24,16 +24,16 @@ export function StickyProvider({ children }: StickyProviderProps): JSX.Element {
   const addSticky = () => {
     const { width = 1000, height = 500 } = containerRef.current?.getBoundingClientRect() ?? {};
     const maximumBounding = {
-      x: width - TrashZoneDimensions.width,    
+      x: width - TrashZoneDimensions.width,
       y: height - TrashZoneDimensions.height,
-    }
+    };
 
     const newSticky = {
       id: `sticky-${++countRef.current}`,
       x: getRandomInt(0, maximumBounding.x),
-      y: getRandomInt(0, maximumBounding.y), 
-      color: theme.colors.stickies_color[getRandomInt(0, 3)]
-    }
+      y: getRandomInt(0, maximumBounding.y),
+      color: theme.colors.stickiesColor[getRandomInt(0, 4)],
+    };
 
     setStickies([...stickies, newSticky]);
   }

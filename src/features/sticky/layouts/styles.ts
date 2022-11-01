@@ -1,10 +1,9 @@
-import styled from 'styled-components';
-import theme from '../../../styles/theme';
+import styled from "styled-components";
 
 export const Container = styled.section`
   position: relative;
-  background-color: ${theme.colors.background};
-  
+  background-color: ${({ theme }) => theme.colors.background};
+
   width: 100vw;
   height: 100vh;
 `;

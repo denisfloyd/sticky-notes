@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react"
+import React from "react";
 import { StickyNote } from "../components/StickNote";
 import { AddStickButton } from "../components/AddStickButton";
-import { Container } from "./styles"
+import { Container } from "./styles";
 import { TrashZone } from "../components/TrashZone";
 import { useSticky } from "../contexts/StickyContext";
 
@@ -12,11 +12,11 @@ export const StickyNotesContainer: React.FC = () => {
     <>
       <Container ref={containerRef}>
         <AddStickButton />
-        {stickies ? stickies.map(item => (
-          <StickyNote sticky={item} key={item.id}/>
-        )) : null}
+        {stickies
+          ? stickies.map((item) => <StickyNote sticky={item} key={item.id} />)
+          : null}
         <TrashZone />
       </Container>
     </>
-  )
-}
+  );
+};
