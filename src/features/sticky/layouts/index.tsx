@@ -1,5 +1,5 @@
 import React from "react";
-import { StickyNote } from "../components/StickNote";
+import { StickyNote } from "../components/StickyNote";
 import { AddStickButton } from "../components/AddStickButton";
 import { Container } from "./styles";
 import { TrashZone } from "../components/TrashZone";

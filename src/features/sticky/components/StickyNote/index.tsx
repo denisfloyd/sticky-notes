@@ -1,27 +1,43 @@
-import { HTMLAttributes, MutableRefObject, ReactNode, useEffect, useRef } from 'react';
-import { Sticky } from '../..';
-import { useSticky } from '../../contexts/StickyContext';
-import { isStickyInTrashZone } from '../../../../utils';
-import { Container, HeaderMoveContainer, TextAreaContainer } from './styles';
+import {
+  BaseSyntheticEvent,
+  HTMLAttributes,
+  MutableRefObject,
+  ReactNode,
+  useEffect,
+  useRef,
+} from "react";
+import { Sticky } from "../..";
+import { useSticky } from "../../contexts/StickyContext";
+import { isStickyInTrashZone } from "../../../../utils";
+import { Container, HeaderMoveContainer, TextAreaContainer } from "./styles";
 
-interface StickyNoteProps extends HTMLAttributes<HTMLDivElement>{
+interface StickyNoteProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
   sticky: Sticky;
 }
 
 interface DragProps {
-  dragStartLeft: number,
-  dragStartTop: number,
-  dragStartX: number,
-  dragStartY: number
+  dragStartLeft: number;
+  dragStartTop: number;
+  dragStartX: number;
+  dragStartY: number;
 }
 
 interface MouseEventProps {
-  clientX: number, 
-  clientY: number
+  clientX: number;
+  clientY: number;
 }
 
-export const StickyNote = ({sticky}: StickyNoteProps) => {
+interface InitializeDragEvent {
+  target: {
+    offsetTop: number;
+    offsetLeft: number;
+  };
+  clientX: number;
+  clientY: number;
+}
+
+export const StickyNote = ({ sticky }: StickyNoteProps) => {
   const elemRef = useRef<HTMLDivElement>();
   const dragProps = useRef<DragProps>();
 
@@ -43,7 +59,7 @@ export const StickyNote = ({sticky}: StickyNoteProps) => {
     };
   };
 
-  const initialiseDrag = (event: any) => {
+  const initialiseDrag = (event: InitializeDragEvent) => {
     if (elemRef.current) {
       const { target, clientX, clientY } = event;
       const { offsetTop, offsetLeft } = target;
@@ -90,9 +106,17 @@ export const StickyNote = ({sticky}: StickyNoteProps) => {
   };
 
   return (
-    <Container ref={elemRef as MutableRefObject<HTMLDivElement>} backgroundColor={sticky.color} id={sticky.id}>
-      <HeaderMoveContainer onMouseDown={initialiseDrag} />
+    <Container
+      ref={elemRef as MutableRefObject<HTMLDivElement>}
+      backgroundColor={sticky.color}
+      id={sticky.id}
+    >
+      <HeaderMoveContainer
+        onMouseDown={(ev) =>
+          initialiseDrag(ev as unknown as InitializeDragEvent)
+        }
+      />
       <TextAreaContainer />
     </Container>
-  )
+  );
 };
