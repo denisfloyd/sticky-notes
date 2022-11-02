@@ -1,5 +1,4 @@
 import {
-  BaseSyntheticEvent,
   HTMLAttributes,
   MutableRefObject,
   ReactNode,
@@ -8,24 +7,16 @@ import {
 } from "react";
 import { Sticky } from "../..";
 import { useSticky } from "../../contexts/StickyContext";
-import { isStickyInTrashZone } from "../../../../utils";
+import {
+  getNewPositionsFromClient,
+  isStickyInTrashZone,
+} from "../../../../utils";
 import { Container, HeaderMoveContainer, TextAreaContainer } from "./styles";
+import { DragProps, MouseEventProps } from "shared/types";
 
 interface StickyNoteProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
   sticky: Sticky;
-}
-
-interface DragProps {
-  dragStartLeft: number;
-  dragStartTop: number;
-  dragStartX: number;
-  dragStartY: number;
-}
-
-interface MouseEventProps {
-  clientX: number;
-  clientY: number;
 }
 
 interface InitializeDragEvent {
@@ -81,17 +72,20 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
 
   const startDragging = ({ clientX, clientY }: MouseEventProps) => {
     if (elemRef.current && dragProps.current) {
-      const translateX =
-        dragProps.current.dragStartLeft +
-        clientX -
-        dragProps.current.dragStartX;
-      const translateY =
-        dragProps.current.dragStartTop + clientY - dragProps.current.dragStartY;
+      const containerDimensions = getContainerDimensions();
+      const elementDimensions = elemRef.current.getBoundingClientRect();
+
+      const { translateX, translateY } = getNewPositionsFromClient({
+        clientEvent: { clientX, clientY },
+        containerDimensions,
+        elementDimensions,
+        dragProps: dragProps.current,
+      });
 
       elemRef.current.style.transform = `translate(${translateX}px, ${translateY}px)`;
 
       setHighlightTrashZone(
-        isStickyInTrashZone(clientX, clientY, getContainerDimensions())
+        isStickyInTrashZone(clientX, clientY, containerDimensions)
       );
     }
   };
