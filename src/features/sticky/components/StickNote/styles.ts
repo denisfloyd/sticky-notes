@@ -23,7 +23,7 @@ export const HeaderMoveContainer = styled.header`
   height: 40px;
   cursor: move;
 
-  border: 1px solid ${({ theme }) => theme.colors.background};
+  outline: 1px solid ${({ theme }) => theme.colors.background};
 `;
 
 export const TextAreaContainer = styled.textarea`

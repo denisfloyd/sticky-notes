@@ -12,6 +12,8 @@ interface StickyContextData {
   stickies: Sticky[];
   addSticky: () => void;
   removeSticky: (id: string) => void;
+  highlightTrashZone: boolean;
+  setHighlightTrashZone: (isHighlighted: boolean) => void;
 }
 
 const StickyContext = createContext<StickyContextData>({} as StickyContextData);
@@ -20,9 +22,11 @@ export function StickyProvider({ children }: StickyProviderProps): JSX.Element {
   const containerRef = useRef<HTMLElement>(null);
   const countRef = useRef<number>(0);
   const [stickies, setStickies] = useState<Sticky[]>([]);
+  const [highlightTrashZone, setHighlightTrashZone] = useState(false);
 
   const addSticky = () => {
-    const { width = 1000, height = 500 } = containerRef.current?.getBoundingClientRect() ?? {};
+    const { width = 1000, height = 500 } =
+      containerRef.current?.getBoundingClientRect() ?? {};
     const maximumBounding = {
       x: width - TrashZoneDimensions.width,
       y: height - TrashZoneDimensions.height,
@@ -36,12 +40,17 @@ export function StickyProvider({ children }: StickyProviderProps): JSX.Element {
     };
 
     setStickies([...stickies, newSticky]);
-  }
+  };
 
   const removeSticky = (id: string) => {
-    const newStickiesArray = [...stickies.filter(sticky => sticky.id !== id)];
+    const newStickiesArray = [...stickies.filter((sticky) => sticky.id !== id)];
     setStickies(newStickiesArray);
-  }
+    setHighlightTrashZone(false);
+  };
+
+  const updateHighlightTrashZone = (newValue: boolean) => {
+    setHighlightTrashZone(() => newValue);
+  };
 
   return (
     <StickyContext.Provider
@@ -49,7 +58,9 @@ export function StickyProvider({ children }: StickyProviderProps): JSX.Element {
         containerRef,
         stickies,
         addSticky,
-        removeSticky
+        removeSticky,
+        highlightTrashZone,
+        setHighlightTrashZone: updateHighlightTrashZone,
       }}
     >
       {children}

@@ -14,5 +14,9 @@ export default {
     },
     stickiesColor: ["#FEFFB3", "#84b4fb", "#E6639A", "#B39BDA", "#F3A02D"],
   },
+  transition: {
+    default: "0.3s ease-in-out",
+    fast: "0.1s ease-in-out",
+  },
 };
 

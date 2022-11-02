@@ -1,7 +1,7 @@
 export const TrashZoneDimensions = {
-  width: 400,
-  height: 400,
-}
+  width: 350,
+  height: 350,
+};
 
 export function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);
