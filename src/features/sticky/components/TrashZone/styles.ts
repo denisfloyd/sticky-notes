@@ -1,5 +1,5 @@
-import styled, { css } from "styled-components";
-import { TrashZoneDimensions } from "../../../../utils";
+import styled, { css } from 'styled-components';
+import { TrashZoneDimensions } from '../../../../utils';
 
 interface ContainerProps {
   isHighlighted: boolean;
@@ -11,7 +11,7 @@ export const Container = styled.div<ContainerProps>`
   right: 0;
   height: ${TrashZoneDimensions.height}px;
   width: ${TrashZoneDimensions.width}px;
-  background-color: ${({ theme }) => theme.colors.secondary["&hover"]};
+  background-color: ${({ theme }) => theme.colors.secondary['&hover']};
   transition: all ${({ theme }) => theme.transition.fast};
 
   ${(props) =>
@@ -26,7 +26,7 @@ export const Container = styled.div<ContainerProps>`
     `}
 
   &:before {
-    content: "Trash Zone";
+    content: 'Trash Zone';
     font-size: 20px;
     position: absolute;
     top: 0;

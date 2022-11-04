@@ -1,4 +1,4 @@
-import { DragProps, ElementDimensions, MouseEventProps } from "shared/types";
+import { DragProps, ElementDimensions, MouseEventProps } from 'shared/types';
 
 export const TrashZoneDimensions: ElementDimensions = {
   width: 350,
@@ -14,7 +14,7 @@ export const getRandomInt = (min: number, max: number) => {
 export const isStickyInTrashZone = (
   stickyX: number,
   stickyY: number,
-  container: ElementDimensions
+  container: ElementDimensions,
 ) => {
   return (
     stickyX > container.width - TrashZoneDimensions.width &&
@@ -34,25 +34,18 @@ export const getNewPositionsFromClient = ({
   dragProps: DragProps;
 }) => {
   const { clientX, clientY } = clientEvent;
-  const { width: widthContainer, height: heightContainer } =
-    containerDimensions;
+  const { width: widthContainer, height: heightContainer } = containerDimensions;
   const { width: widthElement, height: heightElement } = elementDimensions;
   const { dragStartLeft, dragStartTop, dragStartX, dragStartY } = dragProps;
 
   const translateX = Math.max(
     0,
-    Math.min(
-      dragStartLeft + clientX - dragStartX,
-      widthContainer - widthElement
-    )
+    Math.min(dragStartLeft + clientX - dragStartX, widthContainer - widthElement),
   );
 
   const translateY = Math.max(
     0,
-    Math.min(
-      dragStartTop + clientY - dragStartY,
-      heightContainer - heightElement
-    )
+    Math.min(dragStartTop + clientY - dragStartY, heightContainer - heightElement),
   );
 
   return {

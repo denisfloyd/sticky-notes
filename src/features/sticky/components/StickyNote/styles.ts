@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
 interface ContainerProps {
   backgroundColor: string;
@@ -23,8 +23,10 @@ export const HeaderMoveContainer = styled.header`
   height: 40px;
   cursor: move;
 
-  outline: 1px solid ${({ theme }) => theme.colors.background};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.background};
 `;
+
+const maxResizeElement = 350;
 
 export const TextAreaContainer = styled.textarea`
   outline: none;
@@ -34,4 +36,8 @@ export const TextAreaContainer = styled.textarea`
   padding: 20px;
   font-family: ${({ theme }) => theme.font.family};
   font-size: 14px;
+
+  // limit rezise
+  max-width: ${maxResizeElement}px;
+  max-height: ${maxResizeElement}px;
 `;

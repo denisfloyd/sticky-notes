@@ -1,8 +1,8 @@
-import { ThemeProvider } from "styled-components";
-import { StickyProvider } from "./features/sticky/contexts/StickyContext";
-import { StickyNotesContainer } from "./features/sticky/layouts";
-import GlobalStyle from "./styles/global";
-import theme from "./styles/theme";
+import { ThemeProvider } from 'styled-components';
+import { StickyProvider } from './features/sticky/contexts/StickyContext';
+import { StickyNotesContainer } from './features/sticky/layouts';
+import GlobalStyle from './styles/global';
+import theme from './styles/theme';
 
 function App() {
   return (

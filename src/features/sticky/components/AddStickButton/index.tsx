@@ -1,5 +1,5 @@
-import { useSticky } from "../../contexts/StickyContext"
-import { Container } from "./styles";
+import { useSticky } from '../../contexts/StickyContext';
+import { Container } from './styles';
 
 export const AddStickButton: React.FC = () => {
   const { addSticky } = useSticky();

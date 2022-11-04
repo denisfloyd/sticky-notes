@@ -25,8 +25,7 @@ export function StickyProvider({ children }: StickyProviderProps): JSX.Element {
   const [highlightTrashZone, setHighlightTrashZone] = useState(false);
 
   const addSticky = () => {
-    const { width = 1000, height = 500 } =
-      containerRef.current?.getBoundingClientRect() ?? {};
+    const { width = 1000, height = 500 } = containerRef.current?.getBoundingClientRect() ?? {};
     const maximumBounding = {
       x: width - TrashZoneDimensions.width,
       y: height - TrashZoneDimensions.height,

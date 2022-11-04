@@ -1,18 +1,9 @@
-import {
-  HTMLAttributes,
-  MutableRefObject,
-  ReactNode,
-  useEffect,
-  useRef,
-} from "react";
-import { Sticky } from "../..";
-import { useSticky } from "../../contexts/StickyContext";
-import {
-  getNewPositionsFromClient,
-  isStickyInTrashZone,
-} from "../../../../utils";
-import { Container, HeaderMoveContainer, TextAreaContainer } from "./styles";
-import { DragProps, MouseEventProps } from "shared/types";
+import { HTMLAttributes, MutableRefObject, ReactNode, useEffect, useRef } from 'react';
+import { Sticky } from '../..';
+import { useSticky } from '../../contexts/StickyContext';
+import { getNewPositionsFromClient, isStickyInTrashZone } from '../../../../utils';
+import { Container, HeaderMoveContainer, TextAreaContainer } from './styles';
+import { DragProps, MouseEventProps } from '../../../../shared/types';
 
 interface StickyNoteProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
@@ -41,8 +32,7 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
   }, []);
 
   const getContainerDimensions = () => {
-    const { width, height } =
-      containerRef.current!.getBoundingClientRect() ?? {};
+    const { width, height } = containerRef?.current?.getBoundingClientRect() ?? {};
 
     return {
       width,
@@ -55,8 +45,7 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
       const { target, clientX, clientY } = event;
       const { offsetTop, offsetLeft } = target;
 
-      const { left, top } =
-        elemRef.current && elemRef.current.getBoundingClientRect();
+      const { left, top } = elemRef.current && elemRef.current.getBoundingClientRect();
 
       dragProps.current = {
         dragStartLeft: left - offsetLeft,
@@ -65,8 +54,8 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
         dragStartY: clientY,
       };
 
-      window.addEventListener("mousemove", startDragging, false);
-      window.addEventListener("mouseup", stopDragging, false);
+      window.addEventListener('mousemove', startDragging, false);
+      window.addEventListener('mouseup', stopDragging, false);
     }
   };
 
@@ -84,15 +73,13 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
 
       elemRef.current.style.transform = `translate(${translateX}px, ${translateY}px)`;
 
-      setHighlightTrashZone(
-        isStickyInTrashZone(clientX, clientY, containerDimensions)
-      );
+      setHighlightTrashZone(isStickyInTrashZone(clientX, clientY, containerDimensions));
     }
   };
 
   const stopDragging = ({ clientX, clientY }: MouseEventProps) => {
-    window.removeEventListener("mousemove", startDragging, false);
-    window.removeEventListener("mouseup", stopDragging, false);
+    window.removeEventListener('mousemove', startDragging, false);
+    window.removeEventListener('mouseup', stopDragging, false);
 
     if (isStickyInTrashZone(clientX, clientY, getContainerDimensions())) {
       removeSticky(sticky.id);
@@ -106,9 +93,7 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
       id={sticky.id}
     >
       <HeaderMoveContainer
-        onMouseDown={(ev) =>
-          initialiseDrag(ev as unknown as InitializeDragEvent)
-        }
+        onMouseDown={(ev) => initialiseDrag(ev as unknown as InitializeDragEvent)}
       />
       <TextAreaContainer />
     </Container>

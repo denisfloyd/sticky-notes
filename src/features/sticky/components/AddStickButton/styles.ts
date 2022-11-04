@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Container = styled.button`
   position: fixed;
@@ -16,6 +16,6 @@ export const Container = styled.button`
   transition: background-color 0.2s ease-in;
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.primary["&hover"]};
+    background-color: ${({ theme }) => theme.colors.primary['&hover']};
   }
 `;
