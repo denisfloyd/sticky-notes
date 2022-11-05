@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useContext, useRef, useState } from 'react';
+import React, { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import { Sticky } from '..';
 import theme from '../../../styles/theme';
 import { getRandomInt, TrashZoneDimensions } from '../../../utils';
@@ -11,6 +11,7 @@ interface StickyContextData {
   containerRef: React.RefObject<HTMLElement>;
   stickies: Sticky[];
   addSticky: () => void;
+  updateSticky: (stickyWithUpdateData: Sticky) => void;
   removeSticky: (id: string) => void;
   highlightTrashZone: boolean;
   setHighlightTrashZone: (isHighlighted: boolean) => void;
@@ -51,12 +52,25 @@ export function StickyProvider({ children }: StickyProviderProps): JSX.Element {
     setHighlightTrashZone(() => newValue);
   };
 
+  const updateSticky = (stickyWithUpdateData: Sticky) => {
+    const stickyIndex = stickies.findIndex((sticky) => sticky.id === stickyWithUpdateData.id);
+
+    if (stickyIndex !== -1) {
+      const newStickies = [...stickies];
+      newStickies[stickyIndex] = stickyWithUpdateData;
+      setStickies(newStickies);
+    }
+
+    return;
+  };
+
   return (
     <StickyContext.Provider
       value={{
         containerRef,
         stickies,
         addSticky,
+        updateSticky,
         removeSticky,
         highlightTrashZone,
         setHighlightTrashZone: updateHighlightTrashZone,
