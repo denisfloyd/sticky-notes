@@ -1,6 +1,6 @@
 import React from 'react';
 import { StickyNote } from '../components/StickyNote';
-import { AddStickButton } from '../components/AddStickButton';
+import { AddStickButton } from '../components/AddStickyButton';
 import { Container } from './styles';
 import { TrashZone } from '../components/TrashZone';
 import { useSticky } from '../contexts/StickyContext';
