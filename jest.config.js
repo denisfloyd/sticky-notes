@@ -6,6 +6,7 @@ module.exports = {
   resetMocks: false,
   moduleNameMapper: {
     '^.+\\.(css|sass|scss)$': 'identity-obj-proxy',
+    '^@/(.*)$': '<rootDir>/src/$1',
   },
   testEnvironment: 'jsdom',
   collectCoverage: false,
