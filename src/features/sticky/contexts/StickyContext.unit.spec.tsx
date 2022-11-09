@@ -29,9 +29,6 @@ describe('Sticky Context', () => {
       wrapper: StickyProvider,
     });
 
-    act(() => {
-      result.current.addSticky();
-    });
     const stickyWithUpdateData = {
       ...result.current.stickies[0],
       x: 500,
@@ -54,16 +51,19 @@ describe('Sticky Context', () => {
       wrapper: StickyProvider,
     });
 
-    act(() => {
-      result.current.addSticky();
-    });
-
-    expect(result.current.stickies).toHaveLength(1);
+    expect(result.current.stickies.length).toBeGreaterThan(1);
 
     act(() => {
       result.current.removeSticky('sticky-1');
     });
 
-    expect(result.current.stickies).toHaveLength(0);
+    expect(result.current.stickies).toHaveLength(1);
+    expect(result.current.stickies).toEqual(
+      expect.arrayContaining([
+        expect.not.objectContaining({
+          id: 'sticky-1',
+        }),
+      ]),
+    );
   });
 });
