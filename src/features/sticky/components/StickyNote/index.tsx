@@ -38,6 +38,8 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
     if (elemRef.current) {
       elemRef.current.style.transform = `translate(${sticky.x}px, ${sticky.y}px)`;
     }
+
+    return () => (stickyRef.current = undefined);
   }, []);
 
   useEffect(() => {
