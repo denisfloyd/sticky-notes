@@ -1,9 +1,11 @@
-import { HTMLAttributes, MutableRefObject, ReactNode, useEffect, useRef } from 'react';
+import { HTMLAttributes, MutableRefObject, ReactNode, useEffect, useRef, useState } from 'react';
 import { Sticky } from '../..';
 import { useSticky } from '../../contexts/StickyContext';
-import { getNewPositionsFromClient, isStickyInTrashZone } from '../../../../utils';
-import { Container, HeaderMoveContainer, TextAreaContainer } from './styles';
+import { getNewPositionsFromClient, isStickyInTrashZone, stickyPadding } from '../../../../utils';
+import { Container, HeaderMoveContainer } from './styles';
 import { DragProps, MouseEventProps } from '../../../../shared/types';
+import useDebounce from '../../../../shared/hooks/useDebounce';
+import { TextArea } from '../TextArea';
 
 interface StickyNoteProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
@@ -20,16 +22,29 @@ interface InitializeDragEvent {
 }
 
 export const StickyNote = ({ sticky }: StickyNoteProps) => {
+  const [text, setText] = useState(sticky.text);
+
   const elemRef = useRef<HTMLDivElement>();
   const dragProps = useRef<DragProps>();
 
-  const { containerRef, removeSticky, setHighlightTrashZone } = useSticky();
+  const stickyRef = useRef<Sticky>();
+  stickyRef.current = sticky;
+
+  const debounceValue = useDebounce(text, 500);
+
+  const { containerRef, updateSticky, removeSticky, setHighlightTrashZone } = useSticky();
 
   useEffect(() => {
     if (elemRef.current) {
       elemRef.current.style.transform = `translate(${sticky.x}px, ${sticky.y}px)`;
     }
   }, []);
+
+  useEffect(() => {
+    if (debounceValue) {
+      updateSticky({ ...sticky, text: debounceValue });
+    }
+  }, [debounceValue]);
 
   const getContainerDimensions = () => {
     const { width, height } = containerRef?.current?.getBoundingClientRect() ?? {};
@@ -83,6 +98,28 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
 
     if (isStickyInTrashZone(clientX, clientY, getContainerDimensions())) {
       removeSticky(sticky.id);
+    } else if (elemRef.current) {
+      const elementDimensions = elemRef.current.getBoundingClientRect();
+
+      updateSticky({
+        ...(stickyRef.current as Sticky),
+        x: elementDimensions?.x,
+        y: elementDimensions?.y,
+      });
+    }
+  };
+
+  const onResize = (widthResized: number, heightResized: number) => {
+    const { width: prevWidth, height: prevHeight } = stickyRef.current || {};
+
+    const totalPadding = stickyPadding * 2;
+
+    if (prevWidth !== widthResized + totalPadding || prevHeight !== heightResized + totalPadding) {
+      updateSticky({
+        ...(stickyRef.current as Sticky),
+        width: widthResized + totalPadding,
+        height: heightResized + totalPadding,
+      });
     }
   };
 
@@ -95,7 +132,7 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
       <HeaderMoveContainer
         onMouseDown={(ev) => initialiseDrag(ev as unknown as InitializeDragEvent)}
       />
-      <TextAreaContainer />
+      <TextArea sticky={sticky} text={text} onChangeText={setText} onResize={onResize} />
     </Container>
   );
 };

@@ -5,6 +5,8 @@ export const TrashZoneDimensions: ElementDimensions = {
   height: 350,
 };
 
+export const stickyPadding = 20;
+
 export const getRandomInt = (min: number, max: number) => {
   min = Math.ceil(min);
   max = Math.floor(max);
