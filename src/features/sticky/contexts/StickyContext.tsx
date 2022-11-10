@@ -22,8 +22,19 @@ const StickyContext = createContext<StickyContextData>({} as StickyContextData);
 export function StickyProvider({ children }: StickyProviderProps): JSX.Element {
   const containerRef = useRef<HTMLElement>(null);
   const countRef = useRef<number>(0);
-  const [stickies, setStickies] = useState<Sticky[]>([]);
+  const [stickies, setStickies] = useState<Sticky[]>(() => {
+    const notes: Sticky[] = window.localStorage.getItem('@sticky-notes/notes')
+      ? [...JSON.parse(window.localStorage.getItem('@sticky-notes/notes') as string)]
+      : [];
+
+    countRef.current = notes.length > 0 ? Number(notes[notes.length - 1]?.id.split('-')[1]) : 0;
+    return notes;
+  });
   const [highlightTrashZone, setHighlightTrashZone] = useState(false);
+
+  useEffect(() => {
+    window.localStorage.setItem('@sticky-notes/notes', JSON.stringify(stickies));
+  }, [stickies]);
 
   const addSticky = () => {
     const { width = 1000, height = 500 } = containerRef.current?.getBoundingClientRect() ?? {};
@@ -34,6 +45,7 @@ export function StickyProvider({ children }: StickyProviderProps): JSX.Element {
 
     const newSticky = {
       id: `sticky-${++countRef.current}`,
+      text: '',
       x: getRandomInt(0, maximumBounding.x),
       y: getRandomInt(0, maximumBounding.y),
       color: theme.colors.stickiesColor[getRandomInt(0, 4)],
