@@ -13,18 +13,23 @@ export const TextArea = ({ sticky, text, onChangeText, onResize }: TextAreaProps
   const textAreaRef = useRef<HTMLTextAreaElement>();
 
   useEffect(() => {
+    /* istanbul ignore else */
     if (textAreaRef.current) {
       textAreaRef.current.style.width = `${sticky.width}px`;
       textAreaRef.current.style.height = `${sticky.height}px`;
+    } else {
+      throw new Error('ref was not set correctly');
     }
 
     // Resize listener to text area input element
+    /* istanbul ignore next */
     const observer = new ResizeObserver((entries) => {
       const { width, height } = entries[0].contentRect;
       onResize(width, height);
     });
 
     observer.observe(textAreaRef?.current as Element);
+    /* istanbul ignore next */
     return () => textAreaRef?.current && observer.unobserve(textAreaRef?.current);
   }, []);
 

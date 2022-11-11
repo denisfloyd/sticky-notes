@@ -1,4 +1,6 @@
 import { render, screen } from '@/tests/test-utils';
+import 'jest-styled-components';
+import theme from '@/styles/theme';
 import { TrashZone } from '.';
 import { useSticky } from '../../contexts/StickyContext';
 
@@ -26,8 +28,10 @@ describe('Trash Zone', () => {
 
     render(<TrashZone />);
 
-    const styles = getComputedStyle(screen.getByRole('region'));
-    expect(styles.backgroundColor).toEqual('rgb(248, 79, 79)');
-    expect(styles.outline).not.toBeFalsy();
+    expect(screen.getByRole('region')).toHaveStyleRule(
+      'background-color',
+      theme.colors.secondary.color,
+    );
+    expect(screen.getByRole('region')).toHaveStyleRule('outline', expect.anything());
   });
 });
