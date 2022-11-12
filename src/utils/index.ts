@@ -1,4 +1,4 @@
-import { DragProps, ElementDimensions, MouseEventProps } from 'shared/types';
+import { DragProps, ElementDimensions, MouseEventProps } from '@/shared/types';
 
 export const TrashZoneDimensions: ElementDimensions = {
   width: 350,

@@ -3,7 +3,7 @@ import { Sticky } from '../..';
 import { useSticky } from '../../contexts/StickyContext';
 import { getNewPositionsFromClient, isStickyInTrashZone, stickyPadding } from '../../../../utils';
 import { Container, HeaderMoveContainer } from './styles';
-import { DragProps, MouseEventProps } from '../../../../shared/types';
+import { DragProps, ElementDimensions, MouseEventProps } from '@/shared/types';
 import useDebounce from '@/shared/hooks/useDebounce';
 import { TextArea } from '../TextArea';
 
@@ -57,7 +57,7 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
     return {
       width,
       height,
-    };
+    } as ElementDimensions;
   };
 
   const initialiseDrag = (event: InitializeDragEvent) => {
