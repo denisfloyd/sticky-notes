@@ -1,5 +1,6 @@
 import { renderHook, act } from '@testing-library/react';
 import theme from '../../../styles/theme';
+import { Sticky } from '../types';
 import { StickyProvider, useSticky } from './StickyContext';
 
 describe('Sticky Context', () => {
@@ -64,6 +65,8 @@ describe('Sticky Context', () => {
       result.current.addSticky();
     });
 
+    jest.clearAllMocks();
+
     const stickyWithUpdateData = {
       ...result.current.stickies[0],
       x: 500,
@@ -75,11 +78,31 @@ describe('Sticky Context', () => {
     });
 
     const stickyUpdated = result.current.stickies[0];
-    expect(stickyUpdated.id).toEqual('sticky-1');
-    expect(stickyUpdated.x).toEqual(500);
-    expect(stickyUpdated.y).toEqual(300);
-    expect(stickyUpdated.color).toEqual(theme.colors.stickiesColor[0]);
+    expect(stickyUpdated.id).toEqual(stickyWithUpdateData.id);
+    expect(stickyUpdated.x).toEqual(stickyWithUpdateData.x);
+    expect(stickyUpdated.y).toEqual(stickyWithUpdateData.y);
+    expect(stickyUpdated.color).toEqual(stickyWithUpdateData.color);
     expect(localStorage.setItem).toHaveBeenCalled();
+  });
+
+  it('should not update an non existing sticky', async () => {
+    const { result } = renderHook(() => useSticky(), {
+      wrapper: StickyProvider,
+    });
+
+    act(() => {
+      result.current.addSticky();
+    });
+
+    jest.clearAllMocks();
+
+    act(() => {
+      result.current.updateSticky({ id: 'non-existing-sticky' } as Sticky);
+    });
+
+    expect(localStorage.setItem).not.toHaveBeenCalled();
+    const stickyUpdated = result.current.stickies[0];
+    expect(stickyUpdated.id).toEqual('sticky-1');
   });
 
   it('should be able to remove a sticky', async () => {
@@ -90,6 +113,8 @@ describe('Sticky Context', () => {
     act(() => {
       result.current.addSticky();
     });
+
+    jest.clearAllMocks();
 
     expect(result.current.stickies).toHaveLength(1);
 

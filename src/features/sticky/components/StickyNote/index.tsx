@@ -4,7 +4,7 @@ import { useSticky } from '../../contexts/StickyContext';
 import { getNewPositionsFromClient, isStickyInTrashZone, stickyPadding } from '../../../../utils';
 import { Container, HeaderMoveContainer } from './styles';
 import { DragProps, MouseEventProps } from '../../../../shared/types';
-import useDebounce from '../../../../shared/hooks/useDebounce';
+import useDebounce from '@/shared/hooks/useDebounce';
 import { TextArea } from '../TextArea';
 
 interface StickyNoteProps extends HTMLAttributes<HTMLDivElement> {
@@ -35,15 +35,18 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
   const { containerRef, updateSticky, removeSticky, setHighlightTrashZone } = useSticky();
 
   useEffect(() => {
+    /* istanbul ignore else */
     if (elemRef.current) {
       elemRef.current.style.transform = `translate(${sticky.x}px, ${sticky.y}px)`;
+    } else {
+      throw new Error('ref was not set correctly');
     }
 
     return () => (stickyRef.current = undefined);
   }, []);
 
   useEffect(() => {
-    if (debounceValue) {
+    if (debounceValue && stickyRef.current && stickyRef.current.text !== debounceValue) {
       updateSticky({ ...sticky, text: debounceValue });
     }
   }, [debounceValue]);
@@ -58,6 +61,7 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
   };
 
   const initialiseDrag = (event: InitializeDragEvent) => {
+    /* istanbul ignore else */
     if (elemRef.current) {
       const { target, clientX, clientY } = event;
       const { offsetTop, offsetLeft } = target;
@@ -73,10 +77,13 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
 
       window.addEventListener('mousemove', startDragging, false);
       window.addEventListener('mouseup', stopDragging, false);
+    } else {
+      throw new Error('ref was not set correctly');
     }
   };
 
   const startDragging = ({ clientX, clientY }: MouseEventProps) => {
+    /* istanbul ignore else */
     if (elemRef.current && dragProps.current) {
       const containerDimensions = getContainerDimensions();
       const elementDimensions = elemRef.current.getBoundingClientRect();
@@ -91,6 +98,8 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
       elemRef.current.style.transform = `translate(${translateX}px, ${translateY}px)`;
 
       setHighlightTrashZone(isStickyInTrashZone(clientX, clientY, containerDimensions));
+    } else {
+      throw new Error('ref was not set correctly');
     }
   };
 
@@ -111,6 +120,7 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
     }
   };
 
+  /* istanbul ignore next */
   const onResize = (widthResized: number, heightResized: number) => {
     const { width: prevWidth, height: prevHeight } = stickyRef.current || {};
 
@@ -130,6 +140,7 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
       ref={elemRef as MutableRefObject<HTMLDivElement>}
       backgroundColor={sticky.color}
       id={sticky.id}
+      data-testid={sticky.id}
     >
       <HeaderMoveContainer
         onMouseDown={(ev) => initialiseDrag(ev as unknown as InitializeDragEvent)}
