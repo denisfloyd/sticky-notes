@@ -18,7 +18,7 @@ describe('Utils', () => {
   });
 
   describe('isStickyInTrashZone', () => {
-    it('should return false in case the element is outsize trash zone', () => {
+    it('should return false in case the element is outside trash zone', () => {
       expect(
         isStickyInTrashZone(300, 300, {
           width: 1000,
@@ -27,7 +27,7 @@ describe('Utils', () => {
       ).toBeFalsy();
     });
 
-    it('should return true in case the element is outsize trash zone', () => {
+    it('should return true in case the element is outside trash zone', () => {
       expect(
         isStickyInTrashZone(800, 600, {
           width: 1000,
