@@ -22,7 +22,6 @@ export const TextArea = ({ sticky, text, onChangeText, onResize }: TextAreaProps
     }
 
     // Resize listener to text area input element
-    /* istanbul ignore next */
     const observer = new ResizeObserver((entries) => {
       const { width, height } = entries[0].contentRect;
       onResize(width, height);
