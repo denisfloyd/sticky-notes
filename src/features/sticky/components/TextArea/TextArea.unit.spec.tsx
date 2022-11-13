@@ -1,8 +1,16 @@
 import theme from '@/styles/theme';
 import 'jest-styled-components';
-import { fireEvent, render, screen } from '@/tests/test-utils';
+import { fireEvent, render, screen, simulateResize } from '@/tests/test-utils';
 import { TextArea } from '.';
 import { Sticky } from '../../types';
+
+let listener: ResizeObserverCallback;
+window.ResizeObserver = class NewResizeObserver extends ResizeObserver {
+  constructor(ls: ResizeObserverCallback) {
+    super(ls);
+    listener = ls;
+  }
+};
 
 describe('TextArea', () => {
   const sticky: Sticky = {
@@ -53,7 +61,7 @@ describe('TextArea', () => {
     expect(textAreaComp).toHaveStyleRule('max-height', '350px');
   });
 
-  it('should call onChangeText when user change text', () => {
+  it('should call onChangeText when changing text', () => {
     const onChangeTextMock = jest.fn();
     render(<TextArea {...defaultProps} onChangeText={onChangeTextMock} />);
 
@@ -62,5 +70,18 @@ describe('TextArea', () => {
 
     expect(onChangeTextMock).toHaveBeenCalled();
     expect(onChangeTextMock).toHaveBeenCalledWith('text changed');
+  });
+
+  it('should call onResize when resizing element', () => {
+    const onResizeMock = jest.fn();
+    const { unmount } = render(<TextArea {...defaultProps} onResize={onResizeMock} />);
+
+    // simulate a RezizeObserver listener
+    simulateResize({ listener, width: 300, height: 300 });
+
+    expect(onResizeMock).toHaveBeenCalled();
+    expect(onResizeMock).toHaveBeenCalledWith(300, 300);
+
+    unmount();
   });
 });
