@@ -6,7 +6,7 @@ import { useSticky } from '../../contexts/StickyContext';
 
 jest.mock('@/features/sticky/contexts/StickyContext');
 
-describe('Trash Zone', () => {
+describe('Sticky - Trash Zone', () => {
   const useStickyMock = useSticky as jest.Mock;
 
   beforeAll(() => {

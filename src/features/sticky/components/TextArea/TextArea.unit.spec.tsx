@@ -12,7 +12,7 @@ window.ResizeObserver = class NewResizeObserver extends ResizeObserver {
   }
 };
 
-describe('TextArea', () => {
+describe('Sticky - TextArea', () => {
   const sticky: Sticky = {
     id: 'sticky-1',
     text: 'test',

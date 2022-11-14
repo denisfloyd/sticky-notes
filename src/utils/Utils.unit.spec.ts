@@ -1,6 +1,6 @@
 import { getRandomInt, isStickyInTrashZone } from '.';
 
-describe('Utils', () => {
+describe('Utils File', () => {
   describe('getRandomInt', () => {
     it('should generate random number between 0 and 1', () => {
       const randomNumber = getRandomInt(0, 1);

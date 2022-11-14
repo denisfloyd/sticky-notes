@@ -3,7 +3,7 @@ import theme from '../../../styles/theme';
 import { Sticky } from '../types';
 import { StickyProvider, useSticky } from './StickyContext';
 
-describe('Sticky Context', () => {
+describe('Sticky - Sticky Context', () => {
   Storage.prototype.setItem = jest.fn();
 
   beforeEach(() => {

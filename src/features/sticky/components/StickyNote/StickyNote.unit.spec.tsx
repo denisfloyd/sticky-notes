@@ -1,14 +1,19 @@
-import { fireEvent, render, screen, waitFor, within } from '@/tests/test-utils';
+import { fireEvent, render, screen, within } from '@/tests/test-utils';
 import 'jest-styled-components';
 import { StickyNote } from '.';
 import { useSticky } from '../../contexts/StickyContext';
 import { Sticky } from '../../types';
 import theme from '@/styles/theme';
+import { getNewPositionsFromClient, isStickyInTrashZone } from '@/utils';
 
 const useStickyMock = useSticky as jest.Mock;
 jest.mock('@/features/sticky/contexts/StickyContext');
 
-describe('StickyNote', () => {
+const isStickyInTrashZoneMock = isStickyInTrashZone as jest.Mock;
+const getNewPositionsFromClientMock = getNewPositionsFromClient as jest.Mock;
+jest.mock('@/utils');
+
+describe('Sticky - StickyNote (Unit)', () => {
   const sticky: Sticky = {
     id: 'sticky-1',
     text: '',
@@ -36,6 +41,22 @@ describe('StickyNote', () => {
   beforeAll(() => {
     useStickyMock.mockReturnValue({
       ...defaultContextProps,
+    });
+
+    getNewPositionsFromClientMock.mockReturnValue({ translateX: 100, translateY: 100 });
+    isStickyInTrashZoneMock.mockReturnValue(false);
+  });
+
+  beforeEach(() => {
+    Element.prototype.getBoundingClientRect = jest.fn().mockImplementation(() => {
+      return {
+        width: 200,
+        height: 200,
+        x: 100,
+        y: 1,
+        left: 100,
+        top: 1,
+      } as DOMRect;
     });
   });
 
@@ -84,13 +105,7 @@ describe('StickyNote', () => {
     listernerSpy.mockRestore();
   });
 
-  it('should update if element is in trash zone while moving', () => {
-    Element.prototype.getBoundingClientRect = jest.fn().mockImplementation(() => {
-      return {
-        width: 200,
-        height: 200,
-      } as DOMRect;
-    });
+  it('should checking if element is inside trash zone while moving', () => {
     const setHighlightTrashZoneMock = jest.fn();
     useStickyMock.mockReturnValue({
       ...defaultContextProps,
@@ -101,7 +116,7 @@ describe('StickyNote', () => {
 
     const containerSticky = screen.getByTestId('sticky-1');
     const headerMove = within(containerSticky).getByRole('banner');
-    fireEvent.mouseDown(headerMove, { clientX: 100, clientY: 0 });
+    fireEvent.mouseDown(headerMove);
     fireEvent.mouseMove(headerMove);
 
     expect(setHighlightTrashZoneMock).toHaveBeenCalledTimes(1);
@@ -118,8 +133,8 @@ describe('StickyNote', () => {
 
     const containerSticky = screen.getByTestId('sticky-1');
     const headerMove = within(containerSticky).getByRole('banner');
-    fireEvent.mouseDown(headerMove, { clientX: 0, clientY: 0 });
-    fireEvent.mouseUp(headerMove, { clientX: 100, clientY: 100 });
+    fireEvent.mouseDown(headerMove);
+    fireEvent.mouseUp(headerMove);
 
     expect(events).toEqual(
       expect.objectContaining({ mousemove: expect.any(Function), mouseup: expect.any(Function) }),
@@ -128,13 +143,7 @@ describe('StickyNote', () => {
     listernerSpy.mockRestore();
   });
 
-  it('should update sticky position when drop outside trash zone', () => {
-    Element.prototype.getBoundingClientRect = jest.fn().mockImplementation(() => {
-      return {
-        x: 100,
-        y: 1,
-      } as DOMRect;
-    });
+  it('should update sticky when dropping outside trash zone', () => {
     const updateStickyMock = jest.fn();
     useStickyMock.mockReturnValue({
       ...defaultContextProps,
@@ -145,10 +154,29 @@ describe('StickyNote', () => {
 
     const containerSticky = screen.getByTestId('sticky-1');
     const headerMove = within(containerSticky).getByRole('banner');
-    fireEvent.mouseDown(headerMove, { clientX: 100, clientY: 0 });
-    fireEvent.mouseUp(headerMove, { clientX: 100, clientY: 1 });
+    fireEvent.mouseDown(headerMove);
+    fireEvent.mouseUp(headerMove);
 
     expect(updateStickyMock).toHaveBeenCalledTimes(1);
     expect(updateStickyMock).toHaveBeenCalledWith({ ...sticky, x: 100, y: 1 });
+  });
+
+  it('should remove sticky when dropping inside trash zone', () => {
+    const removeStickyMock = jest.fn();
+    useStickyMock.mockReturnValue({
+      ...defaultContextProps,
+      removeSticky: removeStickyMock,
+    });
+    isStickyInTrashZoneMock.mockReturnValueOnce(true);
+
+    render(<StickyNote sticky={sticky} />);
+
+    const containerSticky = screen.getByTestId('sticky-1');
+    const headerMove = within(containerSticky).getByRole('banner');
+    fireEvent.mouseDown(headerMove);
+    fireEvent.mouseUp(headerMove);
+
+    expect(removeStickyMock).toHaveBeenCalledTimes(1);
+    expect(removeStickyMock).toHaveBeenCalledWith('sticky-1');
   });
 });
