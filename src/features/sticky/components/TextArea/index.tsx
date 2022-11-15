@@ -1,4 +1,5 @@
 import { MutableRefObject, useEffect, useRef } from 'react';
+import { useSticky } from '../../contexts/StickyContext';
 import { Sticky } from '../../types';
 import { Container } from './styles';
 
@@ -12,6 +13,8 @@ interface TextAreaProps {
 export const TextArea = ({ sticky, text, onChangeText, onResize }: TextAreaProps) => {
   const textAreaRef = useRef<HTMLTextAreaElement>();
 
+  const { stickies } = useSticky();
+
   useEffect(() => {
     /* istanbul ignore else */
     if (textAreaRef.current) {
@@ -20,7 +23,9 @@ export const TextArea = ({ sticky, text, onChangeText, onResize }: TextAreaProps
     } else {
       throw new Error('ref was not set correctly');
     }
+  }, []);
 
+  useEffect(() => {
     // Resize listener to text area input element
     const observer = new ResizeObserver((entries) => {
       const { width, height } = entries[0].contentRect;
@@ -30,7 +35,7 @@ export const TextArea = ({ sticky, text, onChangeText, onResize }: TextAreaProps
     observer.observe(textAreaRef?.current as Element);
     /* istanbul ignore next */
     return () => textAreaRef?.current && observer.unobserve(textAreaRef?.current);
-  }, []);
+  }, [stickies]);
 
   return (
     <Container

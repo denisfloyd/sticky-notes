@@ -70,9 +70,7 @@ export function StickyProvider({ children }: StickyProviderProps): JSX.Element {
     const stickyIndex = stickies.findIndex((sticky) => sticky.id === stickyWithUpdateData.id);
 
     if (stickyIndex !== -1) {
-      const newStickies = [
-        ...JSON.parse(window.localStorage.getItem('@sticky-notes/notes') as string),
-      ];
+      const newStickies = [...stickies];
       newStickies[stickyIndex] = stickyWithUpdateData;
       setStickies(newStickies);
     }
