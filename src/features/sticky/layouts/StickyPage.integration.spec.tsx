@@ -6,7 +6,7 @@ import { StickyProvider } from '../contexts/StickyContext';
 
 /** Should run all the the test suite */
 
-describe('Sticky Page - Integration', () => {
+describe('Sticky Page - (Integration)', () => {
   const customRender = (children: JSX.Element) => {
     render(<StickyProvider>{children}</StickyProvider>);
   };
