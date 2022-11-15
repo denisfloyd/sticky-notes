@@ -9,7 +9,7 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   testEnvironment: 'jsdom',
-  collectCoverage: true,
+  collectCoverage: false,
   collectCoverageFrom: [
     '<rootDir>/src/**/*.{tsx,ts}',
     '!<rootDir>/**/*styles.ts',
@@ -21,5 +21,5 @@ module.exports = {
   ],
   coveragePathIgnorePatterns: ['node_modules'],
   coverageDirectory: '<rootDir>/coverage/',
-  coverageReporters: ['lcov', 'json'],
+  coverageReporters: ['lcov', 'json', 'text'],
 };
