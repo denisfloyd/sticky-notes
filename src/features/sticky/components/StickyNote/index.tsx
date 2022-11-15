@@ -75,8 +75,6 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
         dragStartY: clientY,
       };
 
-      console.log(dragProps.current);
-
       window.addEventListener('mousemove', startDragging, false);
       window.addEventListener('mouseup', stopDragging, false);
     } else {
@@ -96,8 +94,6 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
         elementDimensions,
         dragProps: dragProps.current,
       });
-
-      console.log(clientX, clientY);
 
       elemRef.current.style.transform = `translate(${translateX}px, ${translateY}px)`;
 
