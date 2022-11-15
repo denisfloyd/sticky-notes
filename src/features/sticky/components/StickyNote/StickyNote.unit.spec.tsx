@@ -179,6 +179,4 @@ describe('Sticky - StickyNote (Unit)', () => {
     expect(removeStickyMock).toHaveBeenCalledTimes(1);
     expect(removeStickyMock).toHaveBeenCalledWith('sticky-1');
   });
-
-  it;
 });
