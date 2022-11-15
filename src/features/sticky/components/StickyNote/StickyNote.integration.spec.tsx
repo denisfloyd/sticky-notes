@@ -4,7 +4,7 @@ import { StickyNote } from '.';
 import { useSticky } from '../../contexts/StickyContext';
 import { Sticky } from '../../types';
 import theme from '@/styles/theme';
-import { getNewPositionsToClient, isStickyInTrashZone, stickyPadding } from '@/utils';
+import { stickyPadding } from '@/utils';
 
 const useStickyMock = useSticky as jest.Mock;
 jest.mock('@/features/sticky/contexts/StickyContext');
