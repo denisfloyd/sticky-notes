@@ -1,7 +1,7 @@
 import { HTMLAttributes, MutableRefObject, ReactNode, useEffect, useRef, useState } from 'react';
 import { Sticky } from '../..';
 import { useSticky } from '../../contexts/StickyContext';
-import { getNewPositionsFromClient, isStickyInTrashZone, stickyPadding } from '../../../../utils';
+import { getNewPositionsToClient, isStickyInTrashZone, stickyPadding } from '../../../../utils';
 import { Container, HeaderMoveContainer } from './styles';
 import { DragProps, ElementDimensions, MouseEventProps } from '@/shared/types';
 import useDebounce from '@/shared/hooks/useDebounce';
@@ -75,6 +75,8 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
         dragStartY: clientY,
       };
 
+      console.log(dragProps.current);
+
       window.addEventListener('mousemove', startDragging, false);
       window.addEventListener('mouseup', stopDragging, false);
     } else {
@@ -88,12 +90,14 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
       const containerDimensions = getContainerDimensions();
       const elementDimensions = elemRef.current.getBoundingClientRect();
 
-      const { translateX, translateY } = getNewPositionsFromClient({
+      const { translateX, translateY } = getNewPositionsToClient({
         clientEvent: { clientX, clientY },
         containerDimensions,
         elementDimensions,
         dragProps: dragProps.current,
       });
+
+      console.log(clientX, clientY);
 
       elemRef.current.style.transform = `translate(${translateX}px, ${translateY}px)`;
 

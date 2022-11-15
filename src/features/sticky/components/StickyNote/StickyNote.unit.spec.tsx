@@ -4,13 +4,13 @@ import { StickyNote } from '.';
 import { useSticky } from '../../contexts/StickyContext';
 import { Sticky } from '../../types';
 import theme from '@/styles/theme';
-import { getNewPositionsFromClient, isStickyInTrashZone } from '@/utils';
+import { getNewPositionsToClient, isStickyInTrashZone } from '@/utils';
 
 const useStickyMock = useSticky as jest.Mock;
 jest.mock('@/features/sticky/contexts/StickyContext');
 
 const isStickyInTrashZoneMock = isStickyInTrashZone as jest.Mock;
-const getNewPositionsFromClientMock = getNewPositionsFromClient as jest.Mock;
+const getNewPositionsToClientMock = getNewPositionsToClient as jest.Mock;
 jest.mock('@/utils');
 
 describe('Sticky - StickyNote (Unit)', () => {
@@ -43,7 +43,7 @@ describe('Sticky - StickyNote (Unit)', () => {
       ...defaultContextProps,
     });
 
-    getNewPositionsFromClientMock.mockReturnValue({ translateX: 100, translateY: 100 });
+    getNewPositionsToClientMock.mockReturnValue({ translateX: 100, translateY: 100 });
     isStickyInTrashZoneMock.mockReturnValue(false);
   });
 

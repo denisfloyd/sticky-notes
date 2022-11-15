@@ -24,7 +24,7 @@ export const isStickyInTrashZone = (
   );
 };
 
-export const getNewPositionsFromClient = ({
+export const getNewPositionsToClient = ({
   clientEvent,
   containerDimensions,
   elementDimensions,
