@@ -73,6 +73,11 @@ describe('Sticky - Sticky Context', () => {
       y: 300,
       color: theme.colors.stickiesColor[0],
     };
+    const localStorageGetItemMock = jest
+      .fn()
+      .mockReturnValue(JSON.stringify(result.current.stickies));
+    Storage.prototype.getItem = localStorageGetItemMock;
+
     act(() => {
       result.current.updateSticky(stickyWithUpdateData);
     });
@@ -83,6 +88,8 @@ describe('Sticky - Sticky Context', () => {
     expect(stickyUpdated.y).toEqual(stickyWithUpdateData.y);
     expect(stickyUpdated.color).toEqual(stickyWithUpdateData.color);
     expect(localStorage.setItem).toHaveBeenCalled();
+
+    localStorageGetItemMock.mockReset();
   });
 
   it('should not update an non existing sticky', async () => {

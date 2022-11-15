@@ -41,8 +41,6 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
     } else {
       throw new Error('ref was not set correctly');
     }
-
-    return () => (stickyRef.current = undefined);
   }, []);
 
   useEffect(() => {
@@ -126,7 +124,13 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
 
     const totalPadding = stickyPadding * 2;
 
-    if (prevWidth !== widthResized + totalPadding || prevHeight !== heightResized + totalPadding) {
+    if (
+      prevWidth &&
+      prevHeight &&
+      widthResized !== 0 &&
+      heightResized !== 0 &&
+      (prevWidth !== widthResized + totalPadding || prevHeight !== heightResized + totalPadding)
+    ) {
       updateSticky({
         ...(stickyRef.current as Sticky),
         width: widthResized + totalPadding,

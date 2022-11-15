@@ -46,6 +46,8 @@ export function StickyProvider({ children }: StickyProviderProps): JSX.Element {
     const newSticky = {
       id: `sticky-${++countRef.current}`,
       text: '',
+      width: 200,
+      height: 200,
       x: getRandomInt(0, maximumBounding.x),
       y: getRandomInt(0, maximumBounding.y),
       color: theme.colors.stickiesColor[getRandomInt(0, 4)],
@@ -68,7 +70,9 @@ export function StickyProvider({ children }: StickyProviderProps): JSX.Element {
     const stickyIndex = stickies.findIndex((sticky) => sticky.id === stickyWithUpdateData.id);
 
     if (stickyIndex !== -1) {
-      const newStickies = [...stickies];
+      const newStickies = [
+        ...JSON.parse(window.localStorage.getItem('@sticky-notes/notes') as string),
+      ];
       newStickies[stickyIndex] = stickyWithUpdateData;
       setStickies(newStickies);
     }
