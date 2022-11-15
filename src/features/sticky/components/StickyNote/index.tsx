@@ -52,7 +52,7 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
   }, [debounceValue]);
 
   const getContainerDimensions = () => {
-    const { width, height } = containerRef?.current?.getBoundingClientRect() ?? {};
+    const { width, height } = containerRef?.current?.getBoundingClientRect() as DOMRect;
 
     return {
       width,
@@ -61,7 +61,7 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
   };
 
   const initialiseDrag = (event: InitializeDragEvent) => {
-    /* istanbul ignore else */
+    /* istanbul ignore else */;
     if (elemRef.current) {
       const { target, clientX, clientY } = event;
       const { offsetTop, offsetLeft } = target;
@@ -140,7 +140,7 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
       ref={elemRef as MutableRefObject<HTMLDivElement>}
       backgroundColor={sticky.color}
       id={sticky.id}
-      data-testid={sticky.id}
+      data-testid='sticky'
     >
       <HeaderMoveContainer
         onMouseDown={(ev) => initialiseDrag(ev as unknown as InitializeDragEvent)}

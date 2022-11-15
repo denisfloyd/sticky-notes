@@ -25,6 +25,7 @@
         "prettier"
     ],
     "rules": {
+        "no-console": "error",
         "react/react-in-jsx-scope": "off",
         "camelcase": "error",
         "spaced-comment": "error",

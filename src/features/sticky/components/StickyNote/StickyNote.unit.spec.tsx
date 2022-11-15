@@ -63,7 +63,7 @@ describe('Sticky - StickyNote (Unit)', () => {
   it('should render a sticky note', () => {
     render(<StickyNote sticky={sticky} />);
 
-    const containerSticky = screen.getByTestId('sticky-1');
+    const containerSticky = screen.getByTestId('sticky');
 
     expect(containerSticky).toBeInTheDocument();
     expect(within(containerSticky).getByRole('banner')).toBeInTheDocument();
@@ -73,7 +73,7 @@ describe('Sticky - StickyNote (Unit)', () => {
   it('should set styles accordingly', () => {
     render(<StickyNote sticky={sticky} />);
 
-    const containerSticky = screen.getByTestId('sticky-1');
+    const containerSticky = screen.getByTestId('sticky');
 
     expect(containerSticky).toHaveStyle(`transform: translate(${sticky.x}px, ${sticky.y}px)`);
     expect(within(containerSticky).getByRole('banner')).toHaveStyleRule('cursor', 'move');
@@ -94,7 +94,7 @@ describe('Sticky - StickyNote (Unit)', () => {
       });
     render(<StickyNote sticky={sticky} />);
 
-    const containerSticky = screen.getByTestId('sticky-1');
+    const containerSticky = screen.getByTestId('sticky');
     const headerMove = within(containerSticky).getByRole('banner');
     fireEvent.mouseDown(headerMove);
 
@@ -105,7 +105,7 @@ describe('Sticky - StickyNote (Unit)', () => {
     listernerSpy.mockRestore();
   });
 
-  it('should checking if element is inside trash zone while moving', () => {
+  it('should checking if sticky note is inside trash zone while moving', () => {
     const setHighlightTrashZoneMock = jest.fn();
     useStickyMock.mockReturnValue({
       ...defaultContextProps,
@@ -114,7 +114,7 @@ describe('Sticky - StickyNote (Unit)', () => {
 
     render(<StickyNote sticky={sticky} />);
 
-    const containerSticky = screen.getByTestId('sticky-1');
+    const containerSticky = screen.getByTestId('sticky');
     const headerMove = within(containerSticky).getByRole('banner');
     fireEvent.mouseDown(headerMove);
     fireEvent.mouseMove(headerMove);
@@ -131,7 +131,7 @@ describe('Sticky - StickyNote (Unit)', () => {
       });
     render(<StickyNote sticky={sticky} />);
 
-    const containerSticky = screen.getByTestId('sticky-1');
+    const containerSticky = screen.getByTestId('sticky');
     const headerMove = within(containerSticky).getByRole('banner');
     fireEvent.mouseDown(headerMove);
     fireEvent.mouseUp(headerMove);
@@ -152,7 +152,7 @@ describe('Sticky - StickyNote (Unit)', () => {
 
     render(<StickyNote sticky={sticky} />);
 
-    const containerSticky = screen.getByTestId('sticky-1');
+    const containerSticky = screen.getByTestId('sticky');
     const headerMove = within(containerSticky).getByRole('banner');
     fireEvent.mouseDown(headerMove);
     fireEvent.mouseUp(headerMove);
@@ -171,7 +171,7 @@ describe('Sticky - StickyNote (Unit)', () => {
 
     render(<StickyNote sticky={sticky} />);
 
-    const containerSticky = screen.getByTestId('sticky-1');
+    const containerSticky = screen.getByTestId('sticky');
     const headerMove = within(containerSticky).getByRole('banner');
     fireEvent.mouseDown(headerMove);
     fireEvent.mouseUp(headerMove);
@@ -179,4 +179,6 @@ describe('Sticky - StickyNote (Unit)', () => {
     expect(removeStickyMock).toHaveBeenCalledTimes(1);
     expect(removeStickyMock).toHaveBeenCalledWith('sticky-1');
   });
+
+  it;
 });
