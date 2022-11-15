@@ -61,7 +61,7 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
   };
 
   const initialiseDrag = (event: InitializeDragEvent) => {
-    /* istanbul ignore else */;
+    /* istanbul ignore else */
     if (elemRef.current) {
       const { target, clientX, clientY } = event;
       const { offsetTop, offsetLeft } = target;

@@ -142,41 +142,4 @@ describe('Sticky - StickyNote (Unit)', () => {
 
     listernerSpy.mockRestore();
   });
-
-  it('should update sticky when dropping outside trash zone', () => {
-    const updateStickyMock = jest.fn();
-    useStickyMock.mockReturnValue({
-      ...defaultContextProps,
-      updateSticky: updateStickyMock,
-    });
-
-    render(<StickyNote sticky={sticky} />);
-
-    const containerSticky = screen.getByTestId('sticky');
-    const headerMove = within(containerSticky).getByRole('banner');
-    fireEvent.mouseDown(headerMove);
-    fireEvent.mouseUp(headerMove);
-
-    expect(updateStickyMock).toHaveBeenCalledTimes(1);
-    expect(updateStickyMock).toHaveBeenCalledWith({ ...sticky, x: 100, y: 1 });
-  });
-
-  it('should remove sticky when dropping inside trash zone', () => {
-    const removeStickyMock = jest.fn();
-    useStickyMock.mockReturnValue({
-      ...defaultContextProps,
-      removeSticky: removeStickyMock,
-    });
-    isStickyInTrashZoneMock.mockReturnValueOnce(true);
-
-    render(<StickyNote sticky={sticky} />);
-
-    const containerSticky = screen.getByTestId('sticky');
-    const headerMove = within(containerSticky).getByRole('banner');
-    fireEvent.mouseDown(headerMove);
-    fireEvent.mouseUp(headerMove);
-
-    expect(removeStickyMock).toHaveBeenCalledTimes(1);
-    expect(removeStickyMock).toHaveBeenCalledWith('sticky-1');
-  });
 });

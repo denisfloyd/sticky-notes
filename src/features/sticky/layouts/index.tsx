@@ -10,9 +10,11 @@ export const StickyNotesContainer: React.FC = () => {
 
   return (
     <>
-      <Container ref={containerRef}>
+      <Container ref={containerRef} id='container'>
         <AddStickButton />
-        {stickies ? stickies.map((item) => <StickyNote sticky={item} key={item.id} />) : null}
+        {stickies && stickies.length > 0
+          ? stickies.map((item) => <StickyNote sticky={item} key={item.id} />)
+          : null}
         <TrashZone />
       </Container>
     </>
