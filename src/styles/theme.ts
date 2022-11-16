@@ -1,6 +1,6 @@
 export default {
   font: {
-    family: '\'Fira Code\', monospace',
+    family: "'Fira Code', monospace",
   },
   colors: {
     background: '#e1f1ff',
