@@ -13,7 +13,8 @@
     "test:watch": "jest --watchAll",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "test:e2e": "start-server-and-test dev 3000 cypress:open"
+    "test:e2e": "start-server-and-test dev 3000 cypress:open",
+    "test:e2e:headless": "start-server-and-test dev 3000 cypress:run"
   },
   "dependencies": {
     "react": "^18.2.0",
