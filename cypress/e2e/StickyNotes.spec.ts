@@ -87,7 +87,7 @@ describe('StickyNotes Feature Page', () => {
       cy.get('textarea').invoke('attr', 'style', 'width: 300px; height: 300px');
     });
 
-    cy.wait(100);
+    cy.wait(200);
     cy.then(() => {
       cy.wrap(JSON.parse(localStorage.getItem('@sticky-notes/notes')))
         .should('not.be.empty')
