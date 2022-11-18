@@ -17,6 +17,7 @@
 
 * [Technologies](#computer-technologies)
 * [How to Run](#construction_worker-how-to-run)
+* [Run Tests](#test_tube-run-tests)
 * [Found a bug? Missing a specific feature?](#bug-issues)
 * [Contributing](#tada-contributing)
 * [License](#closed_book-license)
@@ -56,6 +57,30 @@ or
 $ yarn dev
 ```
 Go to http://localhost:3000/ to see the result.
+
+# :test_tube: Run Tests
+```bash
+# Install dependencies if you didn't
+# Run tests
+$ npm run test
+or
+$ yarn test
+
+# Run test coverage
+$ npm run test:coverage
+or
+$ yarn test:coverage
+
+# Run e2e tests
+$ npm run test:e2e
+or
+$ yarn test:e2e
+
+# Run e2e tests headless
+$ npm run test:e2e:headless
+or
+$ yarn test:e2e:headless
+```
 
 # :bug: Issues
 
