@@ -33,7 +33,7 @@ export const TextArea = ({ sticky, text, onChangeText, onResize }: TextAreaProps
     });
 
     observer.observe(textAreaRef?.current as Element);
-    /* istanbul ignore next */
+    
     return () => textAreaRef?.current && observer.unobserve(textAreaRef?.current);
   }, [stickies]);
 

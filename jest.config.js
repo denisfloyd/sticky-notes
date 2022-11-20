@@ -22,4 +22,5 @@ module.exports = {
   coveragePathIgnorePatterns: ['node_modules'],
   coverageDirectory: '<rootDir>/coverage/',
   coverageReporters: ['lcov', 'json', 'text'],
+  modulePathIgnorePatterns: ['<rootDir>/cypress'],
 };
