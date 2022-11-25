@@ -123,4 +123,25 @@ describe('Sticky Page - (Integration)', () => {
 
     expect(screen.queryByTestId('sticky')).not.toBeInTheDocument();
   });
+
+  it('should overlapping other stickies while moving one', () => {
+    returnElementsBoundingClickRectMock(300, 200);
+    customRender(<App />);
+
+    fireEvent.click(screen.getByRole('button', { name: '+' }));
+    fireEvent.click(screen.getByRole('button', { name: '+' }));
+
+    expect(screen.getAllByTestId('sticky')).toHaveLength(2);
+
+    const [sticky1, sticky2] = screen.getAllByTestId('sticky');
+    const headerMove = within(sticky1).getByRole('banner');
+    fireEvent.mouseDown(headerMove, { clientX: 300, clientY: 200 });
+
+    returnElementsBoundingClickRectMock(400, 300, true);
+
+    fireEvent.mouseMove(headerMove, { clientX: 400, clientY: 300 });
+
+    expect(sticky1).toHaveStyle('z-index: 1');
+    expect(sticky2).toHaveStyle('z-index: 0');
+  });
 });
