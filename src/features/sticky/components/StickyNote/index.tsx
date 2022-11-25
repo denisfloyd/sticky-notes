@@ -86,6 +86,11 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
       const containerDimensions = getContainerDimensions();
       const elementDimensions = elemRef.current.getBoundingClientRect();
 
+      document
+        .querySelectorAll<HTMLElement>('.stickyNote')
+        .forEach((element) => (element.style.zIndex = '0'));
+      elemRef.current.style.zIndex = '1';
+
       const { translateX, translateY } = getNewPositionsToClient({
         clientEvent: { clientX, clientY },
         containerDimensions,
@@ -144,6 +149,7 @@ export const StickyNote = ({ sticky }: StickyNoteProps) => {
       ref={elemRef as MutableRefObject<HTMLDivElement>}
       backgroundColor={sticky.color}
       id={sticky.id}
+      className='stickyNote'
       data-testid='sticky'
     >
       <HeaderMoveContainer
