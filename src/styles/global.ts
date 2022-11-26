@@ -17,9 +17,6 @@ export default createGlobalStyle`
   }
 
   ${({ theme }) => css`
-    html {
-      font-size: 62.5%;
-    }
     body {
       overflow: hidden;
       font-family: ${theme.font.family};
