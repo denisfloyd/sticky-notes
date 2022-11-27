@@ -96,6 +96,28 @@ describe('StickyNotes Feature Page', () => {
     });
   });
 
+  it('should move a sticky to front in case overlapping another', () => {
+    cy.contains('button', '+').click();
+    cy.contains('button', '+').click();
+
+    cy.get('#sticky-1').within(() => {
+      cy.get('header')
+        .trigger('mousedown', { which: 1, force: true })
+        .trigger('mousemove', { clientX: 400, clientY: 200, force: true })
+        .trigger('mouseup', { force: true });
+    });
+
+    cy.get('#sticky-2').within(() => {
+      cy.get('header')
+        .trigger('mousedown', { which: 1, force: true })
+        .trigger('mousemove', { clientX: 400, clientY: 250, force: true })
+        .trigger('mouseup', { force: true });
+    });
+
+    cy.get('#sticky-1').should('have.attr', 'style').should('contain', 'z-index: 0');
+    cy.get('#sticky-2').should('have.attr', 'style').should('contain', 'z-index: 1');
+  });
+
   it('should save stickies interations in localStorage and restore them after reload page', () => {
     cy.contains('button', '+').click();
     cy.contains('button', '+').click();
@@ -136,9 +158,27 @@ describe('StickyNotes Feature Page', () => {
     cy.reload();
 
     cy.get('#sticky-1').should('exist');
-    cy.get('#sticky-2').should('exist');
-
     cy.get('#sticky-1').within(() => cy.get('textarea').should('contain', 'do something #1'));
+    cy.get('#sticky-1').within(() =>
+      cy
+        .get('textarea')
+        .should('have.attr', 'style')
+        .should('contain', 'width: 250px', 'height: 250px'),
+    );
+    cy.get('#sticky-1')
+      .should('have.attr', 'style')
+      .should('contain', 'transform', 'translate(100px, 80px)');
+
+    cy.get('#sticky-2').should('exist');
     cy.get('#sticky-2').within(() => cy.get('textarea').should('contain', 'do something #2'));
+    cy.get('#sticky-2').within(() =>
+      cy
+        .get('textarea')
+        .should('have.attr', 'style')
+        .should('contain', 'width: 300px', 'height: 300px'),
+    );
+    cy.get('#sticky-2')
+      .should('have.attr', 'style')
+      .should('contain', 'transform', 'translate(650px, 0px)');
   });
 });
