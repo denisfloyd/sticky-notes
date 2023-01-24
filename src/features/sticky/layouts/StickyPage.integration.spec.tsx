@@ -1,10 +1,8 @@
 import App from '@/App';
 import { fireEvent, render, screen, within } from '@/tests/test-utils';
 import { TrashZoneDimensions } from '@/utils';
-import 'jest-styled-components';
-import { StickyProvider } from '../contexts/StickyContext';
 
-/** Should run all the the test suite */
+import { StickyProvider } from '../contexts/StickyContext';
 
 describe('Sticky Page - (Integration)', () => {
   const customRender = (children: JSX.Element) => {

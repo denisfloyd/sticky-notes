@@ -56,4 +56,14 @@ describe('useDebounce', () => {
 
     expect(result.current).toEqual('test');
   });
+
+  it('should not return value before delay time', async () => {
+    const { result, rerender } = renderHook();
+    rerender(['test', 1000]);
+
+    act(() => {
+      jest.advanceTimersByTime(500);
+    });
+    expect(result.current).not.toEqual('test');
+  });
 });

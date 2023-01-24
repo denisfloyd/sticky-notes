@@ -1,5 +1,4 @@
 import theme from '@/styles/theme';
-import 'jest-styled-components';
 import { fireEvent, render, screen, simulateResize } from '@/tests/test-utils';
 import { TextArea } from '.';
 import { Sticky } from '../../types';

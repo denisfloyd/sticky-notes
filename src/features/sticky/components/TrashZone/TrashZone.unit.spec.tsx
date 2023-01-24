@@ -1,5 +1,4 @@
 import { render, screen } from '@/tests/test-utils';
-import 'jest-styled-components';
 import theme from '@/styles/theme';
 import { TrashZone } from '.';
 import { useSticky } from '../../contexts/StickyContext';

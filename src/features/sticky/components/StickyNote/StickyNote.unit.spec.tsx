@@ -1,5 +1,4 @@
 import { fireEvent, render, screen, within } from '@/tests/test-utils';
-import 'jest-styled-components';
 import { StickyNote } from '.';
 import { useSticky } from '../../contexts/StickyContext';
 import { Sticky } from '../../types';

@@ -2,6 +2,7 @@ import { FC, ReactElement } from 'react';
 import { act, render, RenderOptions } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 import theme from '../styles/theme';
+import 'jest-styled-components';
 
 interface SimulateResizeProps {
   width: number;
