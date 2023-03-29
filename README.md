@@ -84,7 +84,6 @@ $ yarn test:e2e:headless
 
 # :bug: Issues
 
-Feel free to **file a new issue** with a respective title and description on the the [Todo With Tests](https://github.com/denismend/sticky-notes/issues) repository. If you already found a solution to your problem, **i would love to review your pull request**!
 
 # :tada: Contributing
 
@@ -95,7 +94,7 @@ If you want do help with the code follow the steps bellow
 ```ps
 # Fork using GitHub official command line
 # If you don't have the GitHub CLI, use the web site to do that.
-$ gh repo fork denismend/sticky-notes
+$ gh repo fork denisfloyd/sticky-notes
 
 # Clone your fork
 $ git clone {your-fork-url}
